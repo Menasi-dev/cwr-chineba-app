@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Treasurer Dashboard - CWR Chineba</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Treasurer specific styles */
+        .treasurer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .section-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .tab-btn:hover {
+            background: #764ba2;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .member-table, .loan-table {
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+        }
+        
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .loan-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr 1.5fr;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .approve-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .table-header, .table-row, .loan-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .table-header {
+                display: none;
+            }
+            
+            .table-row, .loan-row {
+                border: 1px solid #f0f0f0;
+                margin-bottom: 10px;
+                border-radius: 8px;
+            }
+            
+            .action-btns {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 1000px;">
+        <div class="form-card" style="max-width: 100%;">
+            
+            <!-- Treasurer Header -->
+            <div class="treasurer-header">
+                <div>
+                    <h1>Treasurer Dashboard</h1>
+                    <p style="color: #666;">Welcome back, Treasurer 👋</p>
+                </div>
+                <a href="login.html" class="logout-btn">Logout</a>
+            </div>
+            
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Members</div>
+                    <div class="stat-value" id="totalMembers">24</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Balance</div>
+                    <div class="stat-value" id="totalBalance">MWK 1.2M</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Loans</div>
+                    <div class="stat-value" id="pendingLoans">5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Loans</div>
+                    <div class="stat-value" id="activeLoans">8</div>
+                </div>
+            </div>
+            
+            <!-- Tabs Navigation -->
+            <div class="section-tabs">
+                <button class="tab-btn active" onclick="showTab('members')">Members</button>
+                <button class="tab-btn" onclick="showTab('loans')">Loan Applications</button>
+                <button class="tab-btn" onclick="showTab('transactions')">All Transactions</button>
+                <button class="tab-btn" onclick="showTab('settings')">Settings</button>
+            </div>
+            
+            <!-- Members Tab -->
+            <div id="membersTab" class="tab-content active">
+                <h2 class="section-title">Member List</h2>
+                <div class="member-table">
+                    <div class="table-header">
+                        <div>ID</div>
+                        <div>Name</div>
+                        <div>Balance</div>
+                        <div>Status</div>
+                        <div>Actions</div>
+                    </div>
+                    <div id="memberList">
+                        <!-- Members will be loaded here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loans Tab -->
+            <div id="loansTab" class="tab-content">
+                <h2 class="section-title">Pending Loan Applications</h2>
+                <div class="loan-table">
+                    <div class="table-header">
+                        <div>Member</div>
+                        <div>Amount</div>
+                        <div>Date</div>
+                        <div>Status</div>
+                        <div>Action</div>
+                    </div>
+                    <div id="loanList">
+                        <!-- Loans will be loaded here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Transactions Tab -->
+            <div id="transactionsTab" class="tab-content">
+                <h2 class="section-title">All Transactions</h2>
+                <div class="loan-table">
+                    <div class="table-header">
+                        <div>Member</div>
+                        <div>Type</div>
+                        <div>Amount</div>
+                        <div>Date</div>
+                        <div>Status</div>
+                    </div>
+                    <div id="transactionList">
+                        <!-- Transactions will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Tab -->
+            <div id="settingsTab" class="tab-content">
+                <h2 class="section-title">System Settings</h2>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Monthly Contribution Amount</label>
+                        <input type="number" id="monthlyContribution" value="20000" style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; width: 200px;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Interest Rate (%)</label>
+                        <input type="number" id="interestRate" value="20" style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; width: 200px;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Minimum Loan Amount</label>
+                        <input type="number" id="minLoan" value="10000" style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; width: 200px;">
+                    </div>
+                    <button class="btn-primary" style="width: auto; padding: 10px 30px;" onclick="saveSettings()">Save Settings</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // Sample data for demonstration
+        const members = [
+            { id: 'CWR001', name: 'Francis Menasi', balance: 145000, status: 'Active' },
+            { id: 'CWR002', name: 'John Banda', balance: 87000, status: 'Active' },
+            { id: 'CWR003', name: 'Mary Phiri', balance: 230000, status: 'Active' },
+            { id: 'CWR004', name: 'Peter Chibwana', balance: 45000, status: 'Active' },
+            { id: 'CWR005', name: 'Grace Mwale', balance: 120000, status: 'Active' }
+        ];
+        
+        const loans = [
+            { member: 'John Banda', amount: 50000, date: '2025-02-20', status: 'pending' },
+            { member: 'Mary Phiri', amount: 30000, date: '2025-02-19', status: 'pending' },
+            { member: 'You', amount: 45000, date: '2025-02-18', status: 'pending' },
+            { member: 'Grace Mwale', amount: 25000, date: '2025-02-17', status: 'approved' },
+            { member: 'Peter Chibwana', amount: 35000, date: '2025-02-16', status: 'rejected' }
+        ];
+        
+        const transactions = [
+            { member: 'Francis Menasi', type: 'Contribution', amount: '+20000', date: '2025-02-20', status: 'completed' },
+            { member: 'John Banda', type: 'Loan', amount: '-50000', date: '2025-02-20', status: 'pending' },
+            { member: 'Mary Phiri', type: 'Contribution', amount: '+20000', date: '2025-02-19', status: 'completed' },
+            { member: 'Peter Chibwana', type: 'Loan Repayment', amount: '+15000', date: '2025-02-18', status: 'completed' },
+            { member: 'Grace Mwale', type: 'Loan', amount: '-25000', date: '2025-02-17', status: 'approved' }
+        ];
+        
+        // Load members into table
+        function loadMembers() {
+            const memberList = document.getElementById('memberList');
+            memberList.innerHTML = '';
+            
+            members.forEach(member => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.innerHTML = `
+                    <div>${member.id}</div>
+                    <div>${member.name}</div>
+                    <div>MWK ${member.balance.toLocaleString()}</div>
+                    <div><span class="status-badge status-approved">${member.status}</span></div>
+                    <div>
+                        <button class="approve-btn" onclick="viewMember('${member.id}')">View</button>
+                    </div>
+                `;
+                memberList.appendChild(row);
+            });
+        }
+        
+        // Load loans into table
+        function loadLoans() {
+            const loanList = document.getElementById('loanList');
+            loanList.innerHTML = '';
+            
+            loans.forEach(loan => {
+                const row = document.createElement('div');
+                row.className = 'loan-row';
+                
+                let statusClass = 'status-pending';
+                if (loan.status === 'approved') statusClass = 'status-approved';
+                if (loan.status === 'rejected') statusClass = 'status-rejected';
+                
+                let actions = '';
+                if (loan.status === 'pending') {
+                    actions = `
+                        <div class="action-btns">
+                            <button class="approve-btn" onclick="approveLoan('${loan.member}')">Approve</button>
+                            <button class="reject-btn" onclick="rejectLoan('${loan.member}')">Reject</button>
+                        </div>
+                    `;
+                } else {
+                    actions = `<span class="status-badge ${statusClass}">${loan.status}</span>`;
+                }
+                
+                row.innerHTML = `
+                    <div>${loan.member}</div>
+                    <div>MWK ${loan.amount.toLocaleString()}</div>
+                    <div>${loan.date}</div>
+                    <div><span class="status-badge ${statusClass}">${loan.status}</span></div>
+                    <div>${actions}</div>
+                `;
+                loanList.appendChild(row);
+            });
+        }
+        
+        // Load transactions into table
+        function loadTransactions() {
+            const transactionList = document.getElementById('transactionList');
+            transactionList.innerHTML = '';
+            
+            transactions.forEach(trans => {
+                const row = document.createElement('div');
+                row.className = 'loan-row';
+                
+                let statusClass = 'status-approved';
+                if (trans.status === 'pending') statusClass = 'status-pending';
+                
+                row.innerHTML = `
+                    <div>${trans.member}</div>
+                    <div>${trans.type}</div>
+                    <div style="color: ${trans.amount.startsWith('+') ? '#28a745' : '#dc3545'}">MWK ${trans.amount}</div>
+                    <div>${trans.date}</div>
+                    <div><span class="status-badge ${statusClass}">${trans.status}</span></div>
+                `;
+                transactionList.appendChild(row);
+            });
+        }
+        
+        // Tab switching function
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        // Action functions
+        function approveLoan(member) {
+            alert(`✅ Loan for ${member} approved!`);
+            // In real app, this would update the database
+        }
+        
+        function rejectLoan(member) {
+            alert(`❌ Loan for ${member} rejected.`);
+            // In real app, this would update the database
+        }
+        
+        function viewMember(memberId) {
+            alert(`Viewing details for member ${memberId}`);
+        }
+        
+        function saveSettings() {
+            const monthly = document.getElementById('monthlyContribution').value;
+            const interest = document.getElementById('interestRate').value;
+            const minLoan = document.getElementById('minLoan').value;
+            
+            alert(`Settings saved!\nMonthly Contribution: MWK ${monthly}\nInterest Rate: ${interest}%\nMinimum Loan: MWK ${minLoan}`);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMembers();
+            loadLoans();
+            loadTransactions();
+        });
+    </script>
+</body>
+</html>
