@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Register - CWR Chineba</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -12,57 +12,57 @@
             <h1>Join CWR Chineba</h1>
             <p class="subtitle">Create your membership account</p>
             
-            <form>
+            <form id="registrationForm">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" required>
+                        <input type="text" id="firstName" name="firstName" placeholder="John" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="surname">Surname</label>
-                        <input type="text" id="surname" required>
+                        <input type="text" id="surname" name="surname" placeholder="Doe" required>
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="station">Station/Unit</label>
-                    <input type="text" id="station" required>
+                    <input type="text" id="station" name="station" placeholder="e.g., Lilongwe Unit A" required>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" required>
+                        <input type="tel" id="phone" name="phone" placeholder="0999123456" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input type="email" id="email" required>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="nationalId">National ID</label>
-                    <input type="text" id="nationalId" required>
+                    <input type="text" id="nationalId" name="nationalId" placeholder="MW12345678" required>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="password">Password (min. 8 characters)</label>
-                        <input type="password" id="password" minlength="8" required>
+                        <input type="password" id="password" name="password" minlength="8" placeholder="********" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" minlength="8" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" placeholder="********" required>
                     </div>
                 </div>
                 
                 <button type="submit" class="btn-primary">Register</button>
                 
                 <p class="login-link">
-                    Already have an account? <a href="#">Login here</a>
+                    Already have an account? <a href="login.html">Login here</a>
                 </p>
             </form>
         </div>
