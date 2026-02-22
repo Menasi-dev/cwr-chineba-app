@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Dashboard - CWR Chineba</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Additional dashboard styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .welcome-section h1 {
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        
+        .welcome-section p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c82333;
+        }
+        
+        .balance-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .balance-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .balance-update {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .menu-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .menu-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .queue-list {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .queue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .queue-item:last-child {
+            border-bottom: none;
+        }
+        
+        .queue-position {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .queue-name {
+            flex: 1;
+            margin-left: 15px;
+            font-weight: 500;
+        }
+        
+        .queue-amount {
+            font-weight: 600;
+            color: #28a745;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .transaction-type {
+            font-weight: 600;
+        }
+        
+        .transaction-type.deposit {
+            color: #28a745;
+        }
+        
+        .transaction-type.withdrawal {
+            color: #dc3545;
+        }
+        
+        .transaction-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+        }
+        
+        .view-all {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .view-all a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .view-all a:hover {
+            text-decoration: underline;
+        }
+        
+        @media screen and (max-width: 480px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .balance-amount {
+                font-size: 2rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 800px;">
+        <div class="form-card" style="max-width: 100%;">
+            
+            <!-- Header with welcome and logout -->
+            <div class="dashboard-header">
+                <div class="welcome-section">
+                    <h1>Welcome, Francis! 👋</h1>
+                    <p>Member #CWR001 • Lilongwe Unit A</p>
+                </div>
+                <a href="login.html" class="logout-btn">Logout</a>
+            </div>
+            
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <div class="balance-label">Current Balance</div>
+                <div class="balance-amount">MWK 145,000</div>
+                <div class="balance-update">Last updated: Today, 10:30 AM</div>
+            </div>
+            
+            <!-- Quick Action Menu -->
+            <div class="menu-grid">
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">💰</span>
+                    Contribute
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">📝</span>
+                    Apply for Loan
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">👤</span>
+                    My Profile
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">📊</span>
+                    History
+                </a>
+            </div>
+            
+            <!-- Loan Queue Section -->
+            <h2 class="section-title">Loan Queue</h2>
+            <div class="queue-list">
+                <div class="queue-item">
+                    <div class="queue-position">1</div>
+                    <span class="queue-name">John Banda</span>
+                    <span class="queue-amount">MWK 50,000</span>
+                </div>
+                <div class="queue-item">
+                    <div class="queue-position">2</div>
+                    <span class="queue-name">Mary Phiri</span>
+                    <span class="queue-amount">MWK 30,000</span>
+                </div>
+                <div class="queue-item">
+                    <div class="queue-position">3</div>
+                    <span class="queue-name">You</span>
+                    <span class="queue-amount">MWK 45,000</span>
+                </div>
+                <div class="queue-item">
+                    <div class="queue-position">4</div>
+                    <span class="queue-name">Peter Chibwana</span>
+                    <span class="queue-amount">MWK 25,000</span>
+                </div>
+            </div>
+            
+            <!-- Recent Transactions -->
+            <h2 class="section-title">Recent Transactions</h2>
+            <div class="queue-list">
+                <div class="transaction-item">
+                    <div>
+                        <div class="transaction-type deposit">Contribution</div>
+                        <div class="transaction-date">Jan 5, 2025</div>
+                    </div>
+                    <div class="transaction-amount">+MWK 20,000</div>
+                </div>
+                <div class="transaction-item">
+                    <div>
+                        <div class="transaction-type withdrawal">Loan Repayment</div>
+                        <div class="transaction-date">Dec 28, 2024</div>
+                    </div>
+                    <div class="transaction-amount">-MWK 15,000</div>
+                </div>
+                <div class="transaction-item">
+                    <div>
+                        <div class="transaction-type deposit">Contribution</div>
+                        <div class="transaction-date">Dec 5, 2024</div>
+                    </div>
+                    <div class="transaction-amount">+MWK 20,000</div>
+                </div>
+                <div class="view-all">
+                    <a href="#">View All Transactions →</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
