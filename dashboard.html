@@ -84,6 +84,8 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            cursor: pointer;
+            display: block;
         }
         
         .menu-item:hover {
@@ -229,21 +231,21 @@
                 <div class="balance-update">Last updated: Today, 10:30 AM</div>
             </div>
             
-            <!-- Quick Action Menu -->
+            <!-- Quick Action Menu with IDs -->
             <div class="menu-grid">
-                <a href="#" class="menu-item">
+                <a href="#" class="menu-item" id="contributeBtn">
                     <span class="menu-icon">💰</span>
                     Contribute
                 </a>
-                <a href="#" class="menu-item">
+                <a href="#" class="menu-item" id="applyLoanBtn">
                     <span class="menu-icon">📝</span>
                     Apply for Loan
                 </a>
-                <a href="#" class="menu-item">
+                <a href="#" class="menu-item" id="profileBtn">
                     <span class="menu-icon">👤</span>
                     My Profile
                 </a>
-                <a href="#" class="menu-item">
+                <a href="#" class="menu-item" id="historyBtn">
                     <span class="menu-icon">📊</span>
                     History
                 </a>
@@ -251,7 +253,7 @@
             
             <!-- Loan Queue Section -->
             <h2 class="section-title">Loan Queue</h2>
-            <div class="queue-list">
+            <div class="queue-list" id="queueList">
                 <div class="queue-item">
                     <div class="queue-position">1</div>
                     <span class="queue-name">John Banda</span>
@@ -305,5 +307,77 @@
             
         </div>
     </div>
+
+    <!-- JavaScript for interactive features -->
+    <script>
+        // Wait for the page to load
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Get the Apply for Loan button by ID
+            const applyButton = document.getElementById('applyLoanBtn');
+            
+            // Get the queue list by ID
+            const queueList = document.getElementById('queueList');
+            
+            // Make button work when clicked
+            applyButton.addEventListener('click', function(event) {
+                event.preventDefault(); // Stop the page from jumping
+                
+                // Ask how much they want to borrow
+                let loanAmount = prompt('How much would you like to borrow? (MWK)', '30000');
+                
+                // If they clicked Cancel or entered nothing, stop
+                if (!loanAmount) return;
+                
+                // Remove commas and make sure it's a number
+                loanAmount = loanAmount.replace(/,/g, '');
+                
+                // Check if it's a valid number
+                if (isNaN(loanAmount) || loanAmount <= 0) {
+                    alert('Please enter a valid amount');
+                    return;
+                }
+                
+                // Format with commas for display
+                const formattedAmount = 'MWK ' + Number(loanAmount).toLocaleString();
+                
+                // Get all current queue items
+                const queueItems = document.querySelectorAll('.queue-item');
+                const newPosition = queueItems.length + 1;
+                
+                // Create new queue item HTML
+                const newQueueItem = document.createElement('div');
+                newQueueItem.className = 'queue-item';
+                newQueueItem.innerHTML = `
+                    <div class="queue-position">${newPosition}</div>
+                    <span class="queue-name">You (pending)</span>
+                    <span class="queue-amount">${formattedAmount}</span>
+                `;
+                
+                // Add it to the queue
+                queueList.appendChild(newQueueItem);
+                
+                // Show success message
+                alert('✅ Your loan application has been added to the queue! You are position #' + newPosition);
+            });
+            
+            // Optional: Add click handlers for other buttons
+            document.getElementById('contributeBtn').addEventListener('click', function(event) {
+                event.preventDefault();
+                alert('💰 Contribution feature coming soon!');
+            });
+            
+            document.getElementById('profileBtn').addEventListener('click', function(event) {
+                event.preventDefault();
+                alert('👤 Profile feature coming soon!');
+            });
+            
+            document.getElementById('historyBtn').addEventListener('click', function(event) {
+                event.preventDefault();
+                alert('📊 Transaction history coming soon!');
+            });
+            
+        });
+    </script>
 </body>
 </html>
